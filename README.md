@@ -38,7 +38,7 @@ motor response while the ESP32 deals with the non-deterministic network.
 |-----------|-------|
 | MCU | TI Tiva C Series **TM4C123GXL** LaunchPad (TM4C123GH6PM, Cortex-M4, 50 MHz) |
 | Motors | 4 × TT gear DC motors (3–6 V), driven as two sides (skid-steer) |
-| Motor driver | H-bridge (DRV8833 / L298N-based — *being finalized*) |
+| Motor driver | L298N-based dual H-bridge (OSOYOO Model-X) |
 | Wireless | ESP32 (Wi-Fi/UDP bridge) — *planned* |
 | Chassis | 4WD robot car chassis |
 | Power | Battery pack (motor supply) + regulated 3.3 V for logic |
@@ -62,6 +62,11 @@ zero = stop) and the **magnitude** sets speed. All motion — forward, reverse, 
 in-place pivots — falls out of this one function, so turning is simply giving the two
 sides different values. A lower-level `set_side()` owns all register access for one side.
 
+Driving the L298N splits speed from direction: **speed** is a PWM duty on the enable
+pins (PB4/PB5, from PWM generator 1), and **direction** is set by GPIO on the IN pins
+(PD0–PD3) — the two inputs of a side driven to opposite levels for forward/reverse, or
+both low to stop.
+
 **Timer driver (`Timer_Interrupt.c` / `.h`)** — Timer0A configured for a **1 ms periodic
 interrupt** (50 MHz clock, prescaler, NVIC priority), running a user callback from the ISR.
 Provides the millisecond time base used for delays and the planned command-safety timeout.
@@ -71,17 +76,14 @@ the serial link to the ESP32. Includes character and string I/O helpers.
 
 ### Pin assignments
 
-| Function | Pin | Peripheral |
-|----------|-----|------------|
-| Left motor — forward | PB6 | M0PWM0 |
-| Left motor — reverse | PB7 | M0PWM1 |
-| Right motor — forward | PB4 | M0PWM2 |
-| Right motor — reverse | PB5 | M0PWM3 |
+| Function | Pin(s) | Peripheral |
+|----------|--------|------------|
+| Left speed (ENA) | PB4 | M0PWM2 |
+| Right speed (ENB) | PB5 | M0PWM3 |
+| Left direction (IN1/IN2) | PD3 / PD2 | GPIO |
+| Right direction (IN3/IN4) | PD1 / PD0 | GPIO |
 | UART RX (from ESP32) | PB0 | U1RX |
 | UART TX (to ESP32) | PB1 | U1TX |
-
-*(Pinout reflects the current DRV8833-style scheme; will be revised if the L298N-based
-driver is adopted.)*
 
 ### Command protocol (planned)
 
