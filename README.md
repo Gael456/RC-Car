@@ -114,7 +114,7 @@ Single-character commands mapped to `drive()` calls:
 - [x] Motor driver — skid-steer differential drive (PWM Module 0)
 - [x] Timer0A 1 ms interrupt tick
 - [x] UART1 driver (serial link to ESP32)
-- [ ] Command parser (characters → `drive()`)
+- [x] Command parser (characters → `drive()`)
 - [ ] Command safety timeout / failsafe (auto-stop on comms loss)
 - [ ] Interrupt-driven UART RX with ring buffer
 - [ ] ESP32 Wi-Fi/UDP → UART bridge
