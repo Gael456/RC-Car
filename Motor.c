@@ -44,6 +44,8 @@ void Motor_Init(uint16_t period_constant, uint16_t duty_cycle)
 
     // Enable the clock to PWM Module 0 (R0 bit of the RCGCPWM register)
     SYSCTL->RCGCPWM |= 0x01;
+	
+		while ((SYSCTL->PRPWM & 0x01) == 0) {}    // wait for PWM0 to be ready
 
     // ---- PWM speed (enable) outputs: PB4 = ENA, PB5 = ENB ----
 
@@ -61,7 +63,7 @@ void Motor_Init(uint16_t period_constant, uint16_t duty_cycle)
 
 
     PWM0->_1_CTL &= ~0x01; // Disable generator 1 while configuring
-
+		
     // Configure generator 1's outputs: drive each pin HIGH at LOAD and LOW at
     // its compare match, producing a standard duty-cycle PWM.
     // CMPA -> PB4 (ENA), CMPB -> PB5 (ENB).
