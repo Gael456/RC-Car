@@ -409,6 +409,16 @@
               <FileType>1</FileType>
               <FilePath>.\UART1.c</FilePath>
             </File>
+            <File>
+              <FileName>Command_Parser.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Command_Parser.c</FilePath>
+            </File>
+            <File>
+              <FileName>GPIO.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\GPIO.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -428,6 +438,16 @@
               <FileName>UART1.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\UART1.h</FilePath>
+            </File>
+            <File>
+              <FileName>Command_Parser.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Command_Parser.h</FilePath>
+            </File>
+            <File>
+              <FileName>GPIO.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\GPIO.h</FilePath>
             </File>
           </Files>
         </Group>
